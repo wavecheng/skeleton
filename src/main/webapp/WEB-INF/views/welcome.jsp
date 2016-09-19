@@ -1,43 +1,49 @@
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ page pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Act Demo</title>
+    <!-- inject:vendor:css -->
+    <link rel="stylesheet" href="${contextPath}/resources/css/vendors.min.css">
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="${contextPath}/resources/css/act-ui.min.css">
+    <!-- endinject -->
+      <style id="localeCss" type="text/css">
+      </style>
+    <link rel="shortcut icon" href="${contextPath}/resources/Images/favicon.ico" type="image/x-icon">
+  </head>
 
-    <title>Welcome</title>
+  <body>
+      <div id="loading" align="center">
+          <div class="load-spinner">
+              <div class="bounce1"></div>
+              <div class="bounce2"></div>
+              <div class="bounce3"></div>
+          </div>
+      </div>
 
-    <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+      <div ng-if="currentUser" id="main" ng-include="'core/view/main.html'">
+      </div>
+    <!-- inject:vendor:js -->
+    <script src="${contextPath}/resources/js/vendors.min.js"></script>
+    <!-- endinject -->
+    <!-- inject:js -->
+    <script src="${contextPath}/resources/js/act-ui.js"></script>
+    <!-- endinject -->
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-</head>
-<body>
-<div class="container">
+    <script>
+        angular.element(document).ready(function() {
+            angular.bootstrap(document, ['act'], {strictDi: true});
 
-    <c:if test="${pageContext.request.userPrincipal.name != null}">
-        <form id="logoutForm" method="POST" action="${contextPath}/logout">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        </form>
+            var loading = document.getElementById('loading');
 
-        <h2>Welcome ${pageContext.request.userPrincipal.name} | <a onclick="document.forms['logoutForm'].submit()">Logout</a></h2>
-
-    </c:if>
-
-</div>
-<!-- /container -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
-</body>
+            loading.parentNode.removeChild(loading);
+        });
+    </script>
+  </body>
 </html>
