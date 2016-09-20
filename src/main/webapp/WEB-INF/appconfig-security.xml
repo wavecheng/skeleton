@@ -14,16 +14,25 @@
         <form-login login-page="/login" default-target-url="/welcome" authentication-failure-url="/login?error" username-parameter="username" password-parameter="password"/>
         <logout logout-success-url="/login?logout" />
         <csrf disabled="true" />
+        <remember-me services-ref="rememberService"/>
     </http>
 
-    <authentication-manager alias="authenticationManager">
-        <authentication-provider user-service-ref="userDetailsServiceImpl">
-            <password-encoder ref="encoder"></password-encoder>
+    <authentication-manager alias="authenticationManager" >
+        <authentication-provider ref="basicAuthenticationProvider" >     	
+<!--             <password-encoder ref="encoder"></password-encoder> -->
         </authentication-provider>
     </authentication-manager>
 
-    <beans:bean id="userDetailsServiceImpl" class="com.hellokoding.account.service.UserDetailsServiceImpl"></beans:bean>
-
+    <!-- <beans:bean id="userDetailsServiceImpl" class="com.hellokoding.account.service.UserDetailsServiceImpl"></beans:bean> -->
+<!--     <beans:bean id="authFilter" class="com.hellokoding.security.ActangularAuthenticationFilter" /> -->
+	<beans:bean id="userDetailService" class="com.hellokoding.security.BasicUserDetailsService" />
+    <beans:bean id="rememberService" class="com.hellokoding.security.ActangularTokenBasedRememberMeServices" >
+    	<beans:constructor-arg index="0" value="actKey"></beans:constructor-arg>
+    	<beans:constructor-arg index="1" ref="userDetailService"></beans:constructor-arg>
+    </beans:bean>
+    <beans:bean id="basicAuthenticationProvider" class="com.hellokoding.security.BasicAuthenticationProvider" />
+	
+	
     <beans:bean id="encoder"
           class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
         <beans:constructor-arg name="strength" value="11"/>
