@@ -14,7 +14,8 @@
         <form-login login-page="/login" default-target-url="/welcome" authentication-failure-url="/login?error" username-parameter="username" password-parameter="password"/>
         <logout logout-success-url="/login?logout" />
         <csrf disabled="true" />
-        <remember-me services-ref="rememberService"/>
+        <remember-me services-ref="rememberService"/>     
+        <custom-filter ref="basicAuthenticationFilter" before="FORM_LOGIN_FILTER"/>          
     </http>
 
     <authentication-manager alias="authenticationManager" >
@@ -22,6 +23,13 @@
 <!--             <password-encoder ref="encoder"></password-encoder> -->
         </authentication-provider>
     </authentication-manager>
+
+<beans:bean id="basicAuthenticationFilter"
+  class="com.hellokoding.security.ActangularAuthenticationFilter">
+  <beans:constructor-arg  name="authenticationManager" ref="authenticationManager" />
+  <beans:constructor-arg name="rememberMeServices" ref="rememberService" />
+</beans:bean>
+
 
     <!-- <beans:bean id="userDetailsServiceImpl" class="com.hellokoding.account.service.UserDetailsServiceImpl"></beans:bean> -->
 <!--     <beans:bean id="authFilter" class="com.hellokoding.security.ActangularAuthenticationFilter" /> -->

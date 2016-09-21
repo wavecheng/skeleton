@@ -2822,7 +2822,7 @@ angular.module('act-core')
                 if (user) {
                     deferred.resolve(user);
                 } else {
-                    $http.get('service/identity/users/' + userId)
+                    $http.get('identity/users/' + userId)
                         .success(function (user) {
                             cacheUser(user);
                             deferred.resolve(user);
