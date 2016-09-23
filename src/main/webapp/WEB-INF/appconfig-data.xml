@@ -41,8 +41,7 @@
 		<property name="transactionManager" ref="transactionManager" />
 		<property name="databaseSchemaUpdate" value="true" />
 		<property name="jobExecutorActivate" value="true" />
-		<property name="deploymentResources"
-			value="classpath*:/bpmn/*.bpmn20.xml" />
+		<property name="deploymentResources" value="classpath*:*.bpmn20.xml" />
 	</bean>
 	<bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">
 		<property name="processEngineConfiguration" ref="processEngineConfiguration" />

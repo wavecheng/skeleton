@@ -20,6 +20,7 @@ import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.rest.service.api.RestResponseFactory;
+import org.activiti.rest.service.api.RestUrlBuilder;
 import org.activiti.rest.service.api.identity.GroupResponse;
 import org.activiti.rest.service.api.identity.UserResponse;
 import org.activiti.rest.service.api.repository.ProcessDefinitionResponse;
@@ -62,7 +63,6 @@ public class BootResource {
     String serverRootUrl = request.getRequestURL().toString();
     serverRootUrl = serverRootUrl.substring(0, serverRootUrl.indexOf("/boot"));
     BootResponse bootResponse = new BootResponse();
-
     initUsersData(bootResponse, serverRootUrl);
     initGroupsData(bootResponse, serverRootUrl);
     initMemberOfData(bootResponse, request.getRemoteUser());
@@ -108,13 +108,14 @@ public class BootResource {
     List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().list();
     List<ProcessDefinitionResponse> responseList = new ArrayList<ProcessDefinitionResponse>();
     for (ProcessDefinition processDefinition : list) {
+      responseList.add(restResponseFactory.createProcessDefinitionResponse(processDefinition));
       //responseList.add(restResponseFactory.createProcessDefinitionResponse(processDefinition,((ProcessDefinitionEntity) processDefinition).isGraphicalNotationDefined(), serverRootUrl));
     }
     bootResponse.setProcessDefinitions(responseList);
   }
   
   //init test data
-  //@PostConstruct
+  @PostConstruct
   public void init() {    
     if (Boolean.valueOf(environment.getProperty("create.demo.users", "true"))) {
       LOGGER.info("Initializing demo groups");
@@ -129,8 +130,8 @@ public class BootResource {
     }
     
    if (Boolean.valueOf(environment.getProperty("create.demo.models", "true"))) {
-      LOGGER.info("Initializing demo models");
-      initDemoModelData();
+//      LOGGER.info("Initializing demo models");
+//      initDemoModelData();
     }
   }
 
@@ -212,16 +213,16 @@ public class BootResource {
 
     if (deploymentList == null || deploymentList.size() == 0) {
       repositoryService.createDeployment().name(deploymentName)
-          .addClasspathResource("bpmn/VacationRequest.bpmn20.xml")
-          .addClasspathResource("bpmn/SimpleProcess.bpmn20.xml")
-          .addClasspathResource("bpmn/Helpdesk.bpmn20.xml")
-          .addClasspathResource("bpmn/reviewSalesLead.bpmn20.xml")
+          .addClasspathResource("VacationRequest.bpmn20.xml").addClasspathResource("VacationRequest.svg")
+          //.addClasspathResource("bpmn/SimpleProcess.bpmn20.xml").addClasspathResource("bpmn/SimpleProcess.svg")
+          //.addClasspathResource("bpmn/Helpdesk.bpmn20.xml").addClasspathResource("bpmn/Helpdesk.png")
+          //.addClasspathResource("bpmn/reviewSalesLead.bpmn20.xml")
           .deploy();
     }
   }
   
   protected void initDemoModelData() {
-    createModelData("Demo model", "This is a demo model", "org/activiti/rest/demo/model/test.model.json");
+    createModelData("Demo model", "This is a demo model", "bpm/test.model.json");
   }
   
   protected void createModelData(String name, String description, String jsonFile) {
@@ -240,7 +241,7 @@ public class BootResource {
       repositoryService.saveModel(model);
       
       try {
-        InputStream svgStream = this.getClass().getClassLoader().getResourceAsStream("org/activiti/rest/demo/model/test.svg");
+        InputStream svgStream = this.getClass().getClassLoader().getResourceAsStream("bpm/test.svg");
         repositoryService.addModelEditorSourceExtra(model.getId(), IOUtils.toByteArray(svgStream));
       } catch(Exception e) {
         LOGGER.warn("Failed to read SVG", e);

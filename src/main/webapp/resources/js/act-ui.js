@@ -2774,8 +2774,8 @@ angular.module('act-core')
     /* agIdentity */
 
 
-    var DEFAULT_USER_PIC = "Images/user.png",
-        DEFAULT_GROUP_PIC = "Images/group.png";
+    var DEFAULT_USER_PIC = "resources/Images/user.png",
+        DEFAULT_GROUP_PIC = "resources/Images/group.png";
 
     function setUserPicture(userId, element, $identity) {
         if (userId) {
@@ -2845,7 +2845,7 @@ angular.module('act-core')
                 if (group) {
                     deferred.resolve(group);
                 } else {
-                    $http.get('service/identity/groups/' + groupId)
+                    $http.get('identity/groups/' + groupId)
                         .success(function (group) {
                             cacheGroup(group);
                             deferred.resolve(group);

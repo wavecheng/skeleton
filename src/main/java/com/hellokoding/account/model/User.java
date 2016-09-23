@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Lazy;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "my_user")
 public class User {
     private Long id;
     private String username;
