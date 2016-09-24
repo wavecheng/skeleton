@@ -20,7 +20,6 @@ import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.rest.service.api.RestResponseFactory;
-import org.activiti.rest.service.api.RestUrlBuilder;
 import org.activiti.rest.service.api.identity.GroupResponse;
 import org.activiti.rest.service.api.identity.UserResponse;
 import org.activiti.rest.service.api.repository.ProcessDefinitionResponse;
@@ -108,8 +107,8 @@ public class BootResource {
     List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().list();
     List<ProcessDefinitionResponse> responseList = new ArrayList<ProcessDefinitionResponse>();
     for (ProcessDefinition processDefinition : list) {
-      responseList.add(restResponseFactory.createProcessDefinitionResponse(processDefinition));
-      //responseList.add(restResponseFactory.createProcessDefinitionResponse(processDefinition,((ProcessDefinitionEntity) processDefinition).isGraphicalNotationDefined(), serverRootUrl));
+      //responseList.add(restResponseFactory.createProcessDefinitionResponse(processDefinition));
+      responseList.add(restResponseFactory.createProcessDefinitionResponse(processDefinition,((ProcessDefinitionEntity) processDefinition).isGraphicalNotationDefined(), serverRootUrl));
     }
     bootResponse.setProcessDefinitions(responseList);
   }
@@ -214,7 +213,7 @@ public class BootResource {
     if (deploymentList == null || deploymentList.size() == 0) {
       repositoryService.createDeployment().name(deploymentName)
           .addClasspathResource("VacationRequest.bpmn20.xml").addClasspathResource("VacationRequest.svg")
-          //.addClasspathResource("bpmn/SimpleProcess.bpmn20.xml").addClasspathResource("bpmn/SimpleProcess.svg")
+          .addClasspathResource("SimpleProcess.bpmn20.xml").addClasspathResource("SimpleProcess.svg")
           //.addClasspathResource("bpmn/Helpdesk.bpmn20.xml").addClasspathResource("bpmn/Helpdesk.png")
           //.addClasspathResource("bpmn/reviewSalesLead.bpmn20.xml")
           .deploy();

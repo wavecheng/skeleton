@@ -5,8 +5,10 @@
        http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/beans
  http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <mvc:annotation-driven/>
-
+    <mvc:annotation-driven>
+    	<mvc:path-matching registered-suffixes-only="true"/>
+    </mvc:annotation-driven>
+	
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
