@@ -32,7 +32,7 @@ public class ActangularAuthenticationFilter extends GenericFilterBean {
   protected String credentialsCharset = "UTF-8";
   protected AuthenticationManager authenticationManager;
   protected AuthenticationEntryPoint authenticationEntryPoint;
-  protected RememberMeServices rememberMeServices = new NullRememberMeServices();
+  protected RememberMeServices rememberMeServices;
   protected String authTokenName = "authToken";
   protected RequestMatcher requestMatcher;
   

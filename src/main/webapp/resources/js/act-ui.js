@@ -82,7 +82,7 @@
                 config.params['authToken'] = authToken;
             }
 
-            $http.post(serviceUrl + '/boot', {}, config).success(function (bootData) {
+            $http.post('/account/boot', {}, config).success(function (bootData) {
 
                 $storage.set("currentUserId", bootData.userId);
 
@@ -1008,9 +1008,9 @@ angular.module('act-core')
 // .constant('serviceUrl', 'http://10.150.139.150:8080/act/service');
 //     .constant('serviceUrl', 'http://localhost:8080/actangular/service');
 // .constant('serviceUrl', 'http://localhost:8080/act/service');
-    .constant('serviceUrl', '/account');
+    .constant('serviceUrl', '/account/service');
 
-
+  
 angular.module('act-core')
     .provider('toastr', function toastrProvider() {
         var _options;
@@ -2822,7 +2822,7 @@ angular.module('act-core')
                 if (user) {
                     deferred.resolve(user);
                 } else {
-                    $http.get('identity/users/' + userId)
+                    $http.get('service/identity/users/' + userId)
                         .success(function (user) {
                             cacheUser(user);
                             deferred.resolve(user);
@@ -2845,7 +2845,7 @@ angular.module('act-core')
                 if (group) {
                     deferred.resolve(group);
                 } else {
-                    $http.get('identity/groups/' + groupId)
+                    $http.get('/service/identity/groups/' + groupId)
                         .success(function (group) {
                             cacheGroup(group);
                             deferred.resolve(group);

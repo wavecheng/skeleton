@@ -15,7 +15,8 @@
         <intercept-url pattern="/runtime/**" access="hasAnyAuthority('user')" />
         <intercept-url pattern="/identity/groups/**" access="hasAnyAuthority('admin')" />
         <csrf disabled="true" />
-        <remember-me services-ref="rememberService"/>     
+        <remember-me services-ref="rememberService" key="actKey"/>  
+        <http-basic />   
         <custom-filter ref="basicAuthenticationFilter" before="FORM_LOGIN_FILTER"/>          
     </http>
 

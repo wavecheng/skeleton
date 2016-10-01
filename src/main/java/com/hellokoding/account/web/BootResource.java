@@ -60,7 +60,7 @@ public class BootResource {
   public BootResponse getData(HttpServletRequest request) {
 
     String serverRootUrl = request.getRequestURL().toString();
-    serverRootUrl = serverRootUrl.substring(0, serverRootUrl.indexOf("/boot"));
+    serverRootUrl = serverRootUrl.substring(0, serverRootUrl.indexOf("/boot")) + "/service";
     BootResponse bootResponse = new BootResponse();
     initUsersData(bootResponse, serverRootUrl);
     initGroupsData(bootResponse, serverRootUrl);
@@ -108,7 +108,7 @@ public class BootResource {
     List<ProcessDefinitionResponse> responseList = new ArrayList<ProcessDefinitionResponse>();
     for (ProcessDefinition processDefinition : list) {
       //responseList.add(restResponseFactory.createProcessDefinitionResponse(processDefinition));
-      responseList.add(restResponseFactory.createProcessDefinitionResponse(processDefinition,((ProcessDefinitionEntity) processDefinition).isGraphicalNotationDefined(), serverRootUrl));
+      responseList.add(restResponseFactory.createProcessDefinitionResponse(processDefinition,true, serverRootUrl));
     }
     bootResponse.setProcessDefinitions(responseList);
   }
@@ -211,11 +211,12 @@ public class BootResource {
     List<Deployment> deploymentList = repositoryService.createDeploymentQuery().deploymentName(deploymentName).list();
 
     if (deploymentList == null || deploymentList.size() == 0) {
-      repositoryService.createDeployment().name(deploymentName)
+    	System.out.println("=============>>>>>>>>>");
+    		repositoryService.createDeployment().name(deploymentName)
           .addClasspathResource("VacationRequest.bpmn20.xml").addClasspathResource("VacationRequest.svg")
-          .addClasspathResource("SimpleProcess.bpmn20.xml").addClasspathResource("SimpleProcess.svg")
+          //.addClasspathResource("SimpleProcess.bpmn20.xml").addClasspathResource("SimpleProcess.svg")
           //.addClasspathResource("bpmn/Helpdesk.bpmn20.xml").addClasspathResource("bpmn/Helpdesk.png")
-          //.addClasspathResource("bpmn/reviewSalesLead.bpmn20.xml")
+          .addClasspathResource("3_qqmail_lookup_address.bpmn20.xml").addClasspathResource("VacationRequest.svg")
           .deploy();
     }
   }
